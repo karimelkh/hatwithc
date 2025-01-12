@@ -9,7 +9,6 @@ main (int argc, char *argv[])
 {
   int sock = 0;
   char buffer[1024] = { 0 };
-  char hostname[1024] = { 0 };
   char ip_buffer[1024] = { 0 };
   char port[5] = "2341";
   struct sockaddr_in serv_addr;
@@ -19,13 +18,6 @@ main (int argc, char *argv[])
 
   if (argc > 2)
     strcpy (port, argv[2]);
-
-  // Get the machine hostname
-  if (gethostname (hostname, sizeof (hostname)) < 0)
-  {
-    perror ("gethostname");
-    return EXIT_FAILURE;
-  }
 
   // Create socket
   sock = socket (AF_INET, SOCK_STREAM, 0);
