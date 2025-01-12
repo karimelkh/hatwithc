@@ -14,7 +14,7 @@ main (void)
   int sock = 0;
   char buffer[1024] = { 0 };
   char hostname[1024] = { 0 };
-  char ip_buffer[1024] = { 0 };
+  char ip_buffer[] = "192.168.75.101";
   struct sockaddr_in serv_addr;
 
   // Get the machine hostname
@@ -23,12 +23,6 @@ main (void)
     perror ("gethostname");
     return EXIT_FAILURE;
   }
-
-  // NOTE <May fail: -1>
-  hname_to_ip (hostname, ip_buffer);
-  /* printf ("hostname: %s\n", hostname); */
-  /* printf ("ip: %s\n", ip_buffer); */
-
 
   // Create socket
   sock = socket (AF_INET, SOCK_STREAM, 0);
