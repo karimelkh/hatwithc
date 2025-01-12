@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include <arpa/inet.h>
 #include <netdb.h>
