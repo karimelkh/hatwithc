@@ -4,18 +4,18 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#include "./hatwithc.h"
-
-#define PORT 2342
-
 int
-main ()
+main (int argc, char *argv[])
 {
   int server_fd, new_socket;
   char buffer[1024] = { 0 };
   char ip_buffer[1024] = { 0 };
+  char port[5] = "2342";
   struct sockaddr_in address;
   int addrlen = sizeof (address);
+
+  if (argc > 1)
+    strcpy (port, argv[1]);
 
   // Create socket
   server_fd = socket (AF_INET, SOCK_STREAM, 0);
@@ -28,7 +28,7 @@ main ()
   // Define address and port
   address.sin_family = AF_INET;
   address.sin_addr.s_addr = INADDR_ANY;
-  address.sin_port = htons (PORT);
+  address.sin_port = htons (atoi (port));
 
   // Bind the socket
   if (bind (server_fd, (struct sockaddr *) &address, sizeof (address)) < 0)
@@ -46,7 +46,7 @@ main ()
     exit (EXIT_FAILURE);
   }
 
-  printf ("Server listening on port %d...\n", PORT);
+  printf ("Server listening on port %s...\n", port);
 
   // Accept a connection
   new_socket =

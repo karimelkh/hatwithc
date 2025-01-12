@@ -4,18 +4,21 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#include "./hatwithc.h"
-
-#define PORT 2342
-
 int
-main (void)
+main (int argc, char *argv[])
 {
   int sock = 0;
   char buffer[1024] = { 0 };
   char hostname[1024] = { 0 };
-  char ip_buffer[] = "192.168.75.101";
+  char ip_buffer[1024] = { 0 };
+  char port[5] = "2341";
   struct sockaddr_in serv_addr;
+
+  if (argc > 1)
+    strcpy (ip_buffer, argv[1]);
+
+  if (argc > 2)
+    strcpy (port, argv[2]);
 
   // Get the machine hostname
   if (gethostname (hostname, sizeof (hostname)) < 0)
@@ -34,7 +37,7 @@ main (void)
 
   // Define server address
   serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons (PORT);
+  serv_addr.sin_port = htons (atoi (port));
 
   // Convert address to binary form and connect
   if (inet_pton (AF_INET, ip_buffer, &serv_addr.sin_addr) <= 0)
@@ -53,7 +56,7 @@ main (void)
 
   while (1)
   {
-    printf ("%s:%d> ", ip_buffer, PORT);
+    printf ("%s:%s> ", ip_buffer, port);
     fgets (buffer, 1024, stdin);
     if (strcmp (buffer, "exit") == 0)
     {
